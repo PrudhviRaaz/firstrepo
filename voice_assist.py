@@ -1,23 +1,19 @@
-from gtts import gTTS
 import os
 import speech_recognition as sr
 from langdetect import detect
 import webbrowser
 import datetime
+import sounddevice as sd
+from gtts import gTTS
 
 recognizer = sr.Recognizer()
 
 def listen():
-    with sr.Microphone() as source:
-        print("Listening...")
-        audio = recognizer.listen(source)
-        try:
-            user_input = recognizer.recognize_google(audio).lower()
-            print("User:", user_input)
-            return user_input
-        except sr.UnknownValueError:
-            print("Sorry, I couldn't understand.")
-            return ""
+    print("Listening...")
+    audio = sd.rec(int(44100 * 5), samplerate=44100, channels=1)
+    sd.wait()
+    # Process the audio as needed
+    # ...
 
 def speak(text):
     tts = gTTS(text=text, lang='en')
